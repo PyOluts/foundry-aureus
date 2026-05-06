@@ -2,7 +2,7 @@
   "id": "aureus",
   "title": "Aureus — Global Map Simulator",
   "description": "A turn-based autonomous simulator of factions, resources, and world events for the global map.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "compatibility": {
     "minimum": "12",
     "verified": "12"

@@ -9,6 +9,16 @@ const WORLD_LIMITS = {
   MAX_NODES: 200,
   MAX_EVENTS: 50
 };
+function createMockTopology() {
+  const nodes = [
+    { id: "node-a", name: "Столица", ownerId: "imperials", neighbors: ["node-b", "node-c"] },
+    { id: "node-b", name: "Торговый порт", ownerId: null, neighbors: ["node-a", "node-d"] },
+    { id: "node-c", name: "Горный перевал", ownerId: null, neighbors: ["node-a", "node-d", "node-e"] },
+    { id: "node-d", name: "Древние руины", ownerId: "void-cult", neighbors: ["node-b", "node-c", "node-e"] },
+    { id: "node-e", name: "Тёмный лес", ownerId: null, neighbors: ["node-c", "node-d"] }
+  ];
+  return Object.fromEntries(nodes.map((n) => [n.id, n]));
+}
 function createSeededRandom(seed) {
   let s = seed;
   return () => {
@@ -103,6 +113,12 @@ class StateManager {
     const fresh = createDefaultState();
     if (withSeedData) {
       fresh.factions = createSeedFactions();
+      fresh.nodes = createMockTopology();
+      for (const node of Object.values(fresh.nodes)) {
+        if (node.ownerId && fresh.factions[node.ownerId]) {
+          fresh.factions[node.ownerId].controlledNodes.push(node.id);
+        }
+      }
     }
     await this.setState(fresh);
     console.info("[Aureus] State reset.", fresh);
@@ -113,16 +129,6 @@ class StateManager {
   }
 }
 __publicField(StateManager, "_cache", null);
-function createMockTopology() {
-  const nodes = [
-    { id: "node-a", name: "Столица", ownerId: "imperials", neighbors: ["node-b", "node-c"] },
-    { id: "node-b", name: "Торговый порт", ownerId: null, neighbors: ["node-a", "node-d"] },
-    { id: "node-c", name: "Горный перевал", ownerId: null, neighbors: ["node-a", "node-d", "node-e"] },
-    { id: "node-d", name: "Древние руины", ownerId: "void-cult", neighbors: ["node-b", "node-c", "node-e"] },
-    { id: "node-e", name: "Тёмный лес", ownerId: null, neighbors: ["node-c", "node-d"] }
-  ];
-  return Object.fromEntries(nodes.map((n) => [n.id, n]));
-}
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 const _AureusDashboard = class _AureusDashboard extends HandlebarsApplicationMixin(ApplicationV2) {
   constructor() {
@@ -332,7 +338,7 @@ Hooks.once("ready", async () => {
     console.info("[Aureus] Seed data loaded.", state);
   }
   Hooks.on("aureus.requestTick", async () => {
-    const { TickManager } = await import("./tickManager-r-3UADEH.mjs");
+    const { TickManager } = await import("./tickManager-DqMh5-KQ.mjs");
     await TickManager.runTick();
     _dashboard == null ? void 0 : _dashboard.refresh();
     TickManager.debugSeed = null;
@@ -352,7 +358,7 @@ window.Aureus = {
   resetState: (withSeedData = true) => StateManager.resetState(withSeedData),
   /** Установить seed для следующего тика (deterministic replay). Пример: Aureus.setDebugSeed(42) */
   setDebugSeed: async (seed) => {
-    const { TickManager } = await import("./tickManager-r-3UADEH.mjs");
+    const { TickManager } = await import("./tickManager-DqMh5-KQ.mjs");
     TickManager.debugSeed = seed;
     console.info(`[Aureus] Debug seed set to ${seed}. Next tick will use it.`);
   }
@@ -365,7 +371,7 @@ function openDashboard() {
 }
 async function openDebugPanel() {
   if (!_debugPanel) {
-    const { AureusDebugPanel } = await import("./debugPanel-ChLT-5Ub.mjs");
+    const { AureusDebugPanel } = await import("./debugPanel-ChF3mJV4.mjs");
     _debugPanel = new AureusDebugPanel();
   }
   _debugPanel.render({ force: true });
@@ -376,4 +382,4 @@ export {
   createSeededRandom as c,
   repaintMapNotes as r
 };
-//# sourceMappingURL=module-DcRgDlZc.mjs.map
+//# sourceMappingURL=module-CvmHhxtP.mjs.map

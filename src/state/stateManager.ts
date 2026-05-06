@@ -13,6 +13,7 @@ import {
   STATE_VERSION,
   WORLD_LIMITS,
 } from "./types.js";
+import { createMockTopology } from "../core/topology.js";
 
 // -------------------------------------------------------------
 // Seed-based pseudo-random (Mulberry32 — быстрый и детерминированный)
@@ -148,6 +149,14 @@ export class StateManager {
     const fresh = createDefaultState();
     if (withSeedData) {
       fresh.factions = createSeedFactions();
+      fresh.nodes = createMockTopology();
+
+      // Проставляем ноды фракциям (по ownerId)
+      for (const node of Object.values(fresh.nodes)) {
+        if (node.ownerId && fresh.factions[node.ownerId]) {
+          fresh.factions[node.ownerId].controlledNodes.push(node.id);
+        }
+      }
     }
     await this.setState(fresh);
     console.info("[Aureus] State reset.", fresh);

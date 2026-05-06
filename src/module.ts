@@ -45,9 +45,9 @@ Hooks.once("init", () => {
     // Поддержка и старых версий (Array), и новых V13+ (Object)
     let tokenControls;
     if (Array.isArray(controls)) {
-      tokenControls = controls.find((c) => c.name === "token");
+      tokenControls = controls.find((c) => c.name === "token" || c.name === "tokens");
     } else {
-      tokenControls = controls.token;
+      tokenControls = controls.tokens || controls.token;
     }
 
     if (tokenControls && tokenControls.tools) {

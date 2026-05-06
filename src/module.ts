@@ -55,6 +55,7 @@ Hooks.once("init", () => {
         name: "aureus",
         title: "Aureus — Симулятор Мира",
         icon: "fas fa-globe",
+        visible: true,
         button: true, // Кнопка не залипает
         onClick: () => openDashboard(),
       });

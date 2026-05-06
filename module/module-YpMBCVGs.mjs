@@ -321,6 +321,7 @@ Hooks.once("init", () => {
         name: "aureus",
         title: "Aureus — Симулятор Мира",
         icon: "fas fa-globe",
+        visible: true,
         button: true,
         // Кнопка не залипает
         onClick: () => openDashboard()
@@ -343,7 +344,7 @@ Hooks.once("ready", async () => {
     console.info("[Aureus] Seed data loaded.", state);
   }
   Hooks.on("aureus.requestTick", async () => {
-    const { TickManager } = await import("./tickManager-Cr0oMWUX.mjs");
+    const { TickManager } = await import("./tickManager-C5sR03K9.mjs");
     await TickManager.runTick();
     _dashboard == null ? void 0 : _dashboard.refresh();
     TickManager.debugSeed = null;
@@ -363,7 +364,7 @@ window.Aureus = {
   resetState: (withSeedData = true) => StateManager.resetState(withSeedData),
   /** Установить seed для следующего тика (deterministic replay). Пример: Aureus.setDebugSeed(42) */
   setDebugSeed: async (seed) => {
-    const { TickManager } = await import("./tickManager-Cr0oMWUX.mjs");
+    const { TickManager } = await import("./tickManager-C5sR03K9.mjs");
     TickManager.debugSeed = seed;
     console.info(`[Aureus] Debug seed set to ${seed}. Next tick will use it.`);
   }
@@ -376,7 +377,7 @@ function openDashboard() {
 }
 async function openDebugPanel() {
   if (!_debugPanel) {
-    const { AureusDebugPanel } = await import("./debugPanel-CSulwOMC.mjs");
+    const { AureusDebugPanel } = await import("./debugPanel-Bci7xCTb.mjs");
     _debugPanel = new AureusDebugPanel();
   }
   _debugPanel.render({ force: true });
@@ -387,4 +388,4 @@ export {
   createSeededRandom as c,
   repaintMapNotes as r
 };
-//# sourceMappingURL=module-CC2R83a4.mjs.map
+//# sourceMappingURL=module-YpMBCVGs.mjs.map

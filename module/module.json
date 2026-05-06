@@ -9,7 +9,7 @@
   },
   "authors": [{ "name": "Aureus Dev" }],
   "esmodules": ["module/module.js"],
-  "styles": ["module/styles/aureus.css"],
+  "styles": ["module/styles/style.css"],
   "languages": [],
   "flags": {},
   "manifest": "https://raw.githubusercontent.com/PyOluts/foundry-aureus/main/module.json",

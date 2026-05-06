@@ -2,7 +2,6 @@ var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 const MODULE_ID = "aureus";
-const STATE_FLAG_KEY = "state";
 const STATE_VERSION = 1;
 const WORLD_LIMITS = {
   MAX_FACTIONS: 20,
@@ -91,22 +90,19 @@ function validate(raw) {
 class StateManager {
   // --- READ ---
   static getState() {
-    var _a;
     if (this._cache) return this._cache;
-    const world = game.world;
-    const raw = (_a = world.getFlag) == null ? void 0 : _a.call(world, MODULE_ID, STATE_FLAG_KEY);
+    const raw = game.settings.get("aureus", "worldState");
     this._cache = validate(raw);
     return this._cache;
   }
   // --- WRITE (только в конце тика — батчинг) ---
   static async setState(state) {
-    var _a, _b;
     const clean = {
       ...state,
       events: state.events.slice(-50)
     };
     this._cache = clean;
-    await ((_b = (_a = game.world).setFlag) == null ? void 0 : _b.call(_a, MODULE_ID, STATE_FLAG_KEY, clean));
+    await game.settings.set("aureus", "worldState", clean);
   }
   // --- RESET (для дебага) ---
   static async resetState(withSeedData = false) {
@@ -643,6 +639,13 @@ let _dashboard = null;
 let _debugPanel = null;
 Hooks.once("init", () => {
   console.log(`[Aureus] Initializing module v${MODULE_ID}...`);
+  game.settings.register("aureus", "worldState", {
+    name: "Aureus World State",
+    scope: "world",
+    config: false,
+    type: Object,
+    default: {}
+  });
   loadTemplates([
     `modules/${MODULE_ID}/templates/dashboard.hbs`,
     `modules/${MODULE_ID}/templates/debug.hbs`
@@ -701,9 +704,11 @@ Hooks.once("ready", async () => {
     _dashboard == null ? void 0 : _dashboard.refresh();
     TickManager.debugSeed = null;
   });
-  Hooks.on("updateWorld", () => {
-    StateManager.invalidateCache();
-    _dashboard == null ? void 0 : _dashboard.refresh();
+  Hooks.on("updateSetting", (setting) => {
+    if (setting.key === "aureus.worldState") {
+      StateManager.invalidateCache();
+      _dashboard == null ? void 0 : _dashboard.refresh();
+    }
   });
   Hooks.on("aureus.openDebug", () => openDebugPanel());
   registerMapHooks(() => StateManager.getState());
@@ -729,7 +734,7 @@ function openDashboard() {
 }
 async function openDebugPanel() {
   if (!_debugPanel) {
-    const { AureusDebugPanel } = await import("./debugPanel-nmqsm-jr.mjs");
+    const { AureusDebugPanel } = await import("./debugPanel-S1h6Bopq.mjs");
     _debugPanel = new AureusDebugPanel();
   }
   _debugPanel.render({ force: true });
@@ -739,4 +744,4 @@ export {
   StateManager as S,
   TickManager as T
 };
-//# sourceMappingURL=module-AIGxBobn.mjs.map
+//# sourceMappingURL=module-DGaIuAO2.mjs.map

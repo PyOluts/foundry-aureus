@@ -23,6 +23,14 @@ let _debugPanel: import("./ui/debugPanel.js").AureusDebugPanel | null = null;
 Hooks.once("init", () => {
   console.log(`[Aureus] Initializing module v${MODULE_ID}...`);
 
+  game.settings.register("aureus", "worldState", {
+    name: "Aureus World State",
+    scope: "world",
+    config: false,
+    type: Object,
+    default: {},
+  });
+
   // Предзагрузка Handlebars-шаблонов
   loadTemplates([
     `modules/${MODULE_ID}/templates/dashboard.hbs`,
@@ -100,10 +108,12 @@ Hooks.once("ready", async () => {
     TickManager.debugSeed = null;
   });
 
-  // Сбрасываем кеш стейта при обновлении мира другим клиентом
-  Hooks.on("updateWorld", () => {
-    StateManager.invalidateCache();
-    _dashboard?.refresh();
+  // Сбрасываем кеш стейта при обновлении настроек (стейта) другим клиентом
+  Hooks.on("updateSetting", (setting: any) => {
+    if (setting.key === "aureus.worldState") {
+      StateManager.invalidateCache();
+      _dashboard?.refresh();
+    }
   });
 
   // Слушаем открытие Debug Panel

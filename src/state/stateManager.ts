@@ -123,8 +123,7 @@ export class StateManager {
   static getState(): AureusState {
     if (this._cache) return this._cache;
 
-    const world = game.world as { getFlag?: (scope: string, key: string) => unknown };
-    const raw = world.getFlag?.(MODULE_ID, STATE_FLAG_KEY);
+    const raw = game.settings.get("aureus", "worldState");
     this._cache = validate(raw);
     return this._cache;
   }
@@ -140,8 +139,7 @@ export class StateManager {
     // Обновляем кеш немедленно, чтобы UI не ждал round-trip
     this._cache = clean;
 
-    await (game.world as { setFlag?: (scope: string, key: string, value: unknown) => Promise<void> })
-      .setFlag?.(MODULE_ID, STATE_FLAG_KEY, clean);
+    await game.settings.set("aureus", "worldState", clean);
   }
 
   // --- RESET (для дебага) ---

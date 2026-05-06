@@ -1,0 +1,351 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@400;500;600&display=swap');
+
+
+/* =============================================================
+   AUREUS — Scoped Styles
+   Все правила вложены в .aureus-app чтобы не ломать стили Foundry
+   ============================================================= */
+/* --- Переменные дизайн-системы --- */
+.aureus-app {
+  --aureus-bg:        #0e0e14;
+  --aureus-surface:   #1a1a26;
+  --aureus-border:    #2e2e45;
+  --aureus-accent:    #c9a84c;
+  --aureus-accent-dim: #8a6e2f;
+  --aureus-text:      #d4cfc7;
+  --aureus-muted:     #6b6880;
+  --aureus-danger:    #e05252;
+  --aureus-warning:   #e8a045;
+  --aureus-success:   #52b788;
+
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--aureus-text);
+  background: var(--aureus-bg);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+/* --- Header --- */
+.aureus-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: var(--aureus-surface);
+  border-bottom: 1px solid var(--aureus-border);
+  gap: 12px;
+  flex-shrink: 0;
+}
+.aureus-header__meta { display: flex; gap: 8px; align-items: center; }
+.aureus-header__actions { display: flex; gap: 8px; }
+/* --- Badges --- */
+.aureus-badge {
+  background: rgba(201,168,76,0.12);
+  border: 1px solid var(--aureus-accent-dim);
+  color: var(--aureus-accent);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.aureus-badge--dim {
+  background: rgba(255,255,255,0.05);
+  border-color: var(--aureus-border);
+  color: var(--aureus-muted);
+}
+/* --- Buttons --- */
+.aureus-btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  transition: filter 0.15s, transform 0.1s;
+}
+.aureus-btn:hover { filter: brightness(1.15); }
+.aureus-btn:active { transform: scale(0.97); }
+.aureus-btn--primary {
+  background: var(--aureus-accent);
+  color: #0e0e14;
+}
+.aureus-btn--ghost {
+  background: transparent;
+  border: 1px solid var(--aureus-border);
+  color: var(--aureus-muted);
+}
+.aureus-btn--ghost:hover { border-color: var(--aureus-accent-dim); color: var(--aureus-accent); }
+.aureus-btn--micro {
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid var(--aureus-border);
+  background: transparent;
+  color: var(--aureus-muted);
+  cursor: pointer;
+  font-size: 11px;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+}
+.aureus-btn--micro:hover {
+  background: rgba(201,168,76,0.12);
+  color: var(--aureus-accent);
+  border-color: var(--aureus-accent-dim);
+}
+/* --- Sections --- */
+.aureus-section {
+  padding: 12px 16px;
+  overflow-y: auto;
+  flex: 1;
+}
+.aureus-section + .aureus-section {
+  border-top: 1px solid var(--aureus-border);
+}
+.aureus-section__title {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--aureus-accent);
+  margin: 0 0 10px 0;
+}
+/* --- Factions --- */
+.aureus-factions { display: flex; flex-direction: column; gap: 8px; }
+.aureus-faction {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  background: var(--aureus-surface);
+  border: 1px solid var(--aureus-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  transition: border-color 0.2s;
+}
+.aureus-faction:hover { border-color: var(--faction-color, var(--aureus-accent-dim)); }
+.aureus-faction__swatch {
+  width: 4px;
+  min-height: 40px;
+  border-radius: 3px;
+  background: var(--faction-color, #ccc);
+  flex-shrink: 0;
+}
+.aureus-faction__body { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.aureus-faction__name {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--faction-color, var(--aureus-text));
+}
+.aureus-faction__stats {
+  display: flex;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--aureus-muted);
+}
+.aureus-faction__personality {
+  margin-left: auto;
+  font-size: 10px;
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+}
+.aureus-faction__controls {
+  display: flex;
+  gap: 5px;
+}
+/* --- Events --- */
+.aureus-events {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.aureus-event {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 5px 8px;
+  border-radius: 5px;
+  background: rgba(255,255,255,0.03);
+  font-size: 12px;
+  border-left: 2px solid transparent;
+}
+.aureus-event--minor  { border-left-color: var(--aureus-muted); }
+.aureus-event--major  { border-left-color: var(--aureus-warning); }
+.aureus-event--critical { border-left-color: var(--aureus-danger); background: rgba(224,82,82,0.06); }
+.aureus-event__tick {
+  color: var(--aureus-accent);
+  font-size: 10px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  min-width: 24px;
+}
+.aureus-event__msg { color: var(--aureus-text); }
+/* --- Empty state --- */
+.aureus-empty {
+  color: var(--aureus-muted);
+  font-style: italic;
+  text-align: center;
+  padding: 16px 0;
+}
+/* --- Control Bar (node ownership strip) --- */
+.aureus-control-bar {
+  display: flex;
+  height: 5px;
+  width: 100%;
+  gap: 1px;
+  flex-shrink: 0;
+}
+.aureus-control-bar__segment {
+  min-width: 4px;
+  transition: flex 0.4s ease;
+}
+.aureus-control-bar__neutral {
+  background: #2e2e45 !important;
+}
+/* --- Event icon --- */
+.aureus-event__icon {
+  flex-shrink: 0;
+  font-size: 12px;
+}
+/* ================================================================
+   DEBUG PANEL
+   ================================================================ */
+.aureus-debug .aureus-section {
+  flex: none;
+  overflow: visible;
+}
+.aureus-debug .aureus-section + .aureus-section {
+  border-top: 1px solid var(--aureus-border);
+}
+/* --- Replay section --- */
+.aureus-debug__replay-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.aureus-debug__label {
+  font-size: 11px;
+  color: var(--aureus-muted);
+  white-space: nowrap;
+}
+.aureus-debug__input {
+  width: 100px;
+  padding: 4px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--aureus-border);
+  background: var(--aureus-surface);
+  color: var(--aureus-text);
+  font-size: 12px;
+  font-family: inherit;
+}
+.aureus-debug__input:focus {
+  outline: none;
+  border-color: var(--aureus-accent-dim);
+}
+.aureus-debug__hint {
+  font-size: 11px;
+  color: var(--aureus-muted);
+  margin: 0 0 8px 0;
+  line-height: 1.5;
+}
+.aureus-debug__recent-ticks {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.aureus-debug__tick-pill {
+  background: rgba(201,168,76,0.1);
+  border: 1px solid var(--aureus-accent-dim);
+  color: var(--aureus-accent);
+  border-radius: 4px;
+  padding: 1px 7px;
+  font-size: 11px;
+}
+/* --- AI Faction cards --- */
+.aureus-debug__faction {
+  background: var(--aureus-surface);
+  border: 1px solid var(--aureus-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  transition: border-color 0.2s;
+}
+.aureus-debug__faction:hover {
+  border-color: var(--faction-color, var(--aureus-accent-dim));
+}
+.aureus-debug__faction-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.aureus-debug__faction-swatch {
+  width: 4px;
+  height: 20px;
+  border-radius: 3px;
+  background: var(--faction-color, #ccc);
+  flex-shrink: 0;
+}
+.aureus-debug__faction-stats {
+  font-size: 11px;
+  color: var(--aureus-muted);
+  margin-left: auto;
+}
+/* --- Weight bars --- */
+.aureus-debug__weights {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.aureus-debug__weight-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.aureus-debug__weight-label {
+  font-size: 11px;
+  color: var(--aureus-muted);
+  width: 90px;
+  flex-shrink: 0;
+}
+.aureus-debug__weight-bar {
+  flex: 1;
+  height: 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.aureus-debug__weight-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.aureus-debug__weight--attack  { background: var(--aureus-danger); }
+.aureus-debug__weight--expand  { background: var(--aureus-success); }
+.aureus-debug__weight--fortify { background: #6a9fd8; }
+.aureus-debug__weight--tax     { background: var(--aureus-accent); }
+.aureus-debug__weight-val {
+  font-size: 10px;
+  color: var(--aureus-muted);
+  width: 38px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+/* --- Personality row --- */
+.aureus-debug__personality {
+  display: flex;
+  gap: 14px;
+  font-size: 11px;
+  color: var(--aureus-muted);
+}
+.aureus-debug__personality strong {
+  color: var(--aureus-text);
+}
+

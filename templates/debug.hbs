@@ -1,0 +1,101 @@
+<!-- templates/debug.hbs -->
+<div class="aureus-app aureus-debug" id="aureus-debug-inner">
+
+  <!-- HEADER -->
+  <header class="aureus-header">
+    <div class="aureus-header__meta">
+      <span class="aureus-badge">🐛 Debug Mode</span>
+      <span class="aureus-badge aureus-badge--dim">Ход {{tick}} · {{totalNodes}} нод · {{totalEvents}} событий</span>
+    </div>
+    <div class="aureus-header__actions">
+      <button class="aureus-btn aureus-btn--ghost" data-action="copyState" id="aureus-copy-state-btn"
+        title="Скопировать JSON стейта">📋 Копировать</button>
+      <button class="aureus-btn aureus-btn--ghost" data-action="printState" id="aureus-print-state-btn"
+        title="Вывести стейт в консоль F12">🖨 Консоль</button>
+    </div>
+  </header>
+
+  <!-- REPLAY SECTION -->
+  <section class="aureus-section aureus-debug__replay">
+    <h2 class="aureus-section__title">🔁 Deterministic Replay</h2>
+    <div class="aureus-debug__replay-row">
+      <label for="aureus-debug-seed" class="aureus-debug__label">Seed</label>
+      <input type="number" id="aureus-debug-seed" class="aureus-debug__input"
+        placeholder="напр. 42" min="0" />
+      <button class="aureus-btn aureus-btn--primary" data-action="runReplay" id="aureus-run-replay-btn">
+        ▶ Запустить
+      </button>
+    </div>
+    <p class="aureus-debug__hint">
+      Установи seed → нажми «Запустить» → тик выполнится детерминировано.
+      Одинаковый seed + тик = одинаковые решения AI.
+    </p>
+    {{#if recentTicks.length}}
+    <div class="aureus-debug__recent-ticks">
+      <span class="aureus-debug__label">Последние ходы:</span>
+      {{#each recentTicks}}
+      <code class="aureus-debug__tick-pill">#{{this}}</code>
+      {{/each}}
+    </div>
+    {{/if}}
+  </section>
+
+  <!-- AI WEIGHTS PER FACTION -->
+  <section class="aureus-section aureus-debug__ai">
+    <h2 class="aureus-section__title">🧠 Веса решений AI (текущий стейт)</h2>
+    {{#each factionDebug}}
+    <div class="aureus-debug__faction" style="--faction-color: {{color}}">
+      <div class="aureus-debug__faction-header">
+        <span class="aureus-debug__faction-swatch"></span>
+        <strong style="color: {{color}}">{{name}}</strong>
+        <span class="aureus-debug__faction-stats">
+          ⚔{{units}} 🪙{{gold}} 🏰{{nodes}}
+          · Фронт: {{enemyFrontier}} враж. / {{neutralFrontier}} нейтр.
+        </span>
+      </div>
+      <!-- Weight bars -->
+      <div class="aureus-debug__weights">
+        <div class="aureus-debug__weight-row">
+          <span class="aureus-debug__weight-label">⚔ Атака</span>
+          <div class="aureus-debug__weight-bar">
+            <div class="aureus-debug__weight-fill aureus-debug__weight--attack"
+                 style="width: {{percentages.attack}}"></div>
+          </div>
+          <span class="aureus-debug__weight-val">{{percentages.attack}}</span>
+        </div>
+        <div class="aureus-debug__weight-row">
+          <span class="aureus-debug__weight-label">🏳 Экспансия</span>
+          <div class="aureus-debug__weight-bar">
+            <div class="aureus-debug__weight-fill aureus-debug__weight--expand"
+                 style="width: {{percentages.expand}}"></div>
+          </div>
+          <span class="aureus-debug__weight-val">{{percentages.expand}}</span>
+        </div>
+        <div class="aureus-debug__weight-row">
+          <span class="aureus-debug__weight-label">🛡 Укрепление</span>
+          <div class="aureus-debug__weight-bar">
+            <div class="aureus-debug__weight-fill aureus-debug__weight--fortify"
+                 style="width: {{percentages.fortify}}"></div>
+          </div>
+          <span class="aureus-debug__weight-val">{{percentages.fortify}}</span>
+        </div>
+        <div class="aureus-debug__weight-row">
+          <span class="aureus-debug__weight-label">🪙 Налоги</span>
+          <div class="aureus-debug__weight-bar">
+            <div class="aureus-debug__weight-fill aureus-debug__weight--tax"
+                 style="width: {{percentages.tax}}"></div>
+          </div>
+          <span class="aureus-debug__weight-val">{{percentages.tax}}</span>
+        </div>
+      </div>
+      <!-- Raw personality -->
+      <div class="aureus-debug__personality">
+        <span>Агрессия: <strong>{{aggression}}</strong></span>
+        <span>Осторожность: <strong>{{caution}}</strong></span>
+        <span>Жадность: <strong>{{greed}}</strong></span>
+      </div>
+    </div>
+    {{/each}}
+  </section>
+
+</div>

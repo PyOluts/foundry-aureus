@@ -1,0 +1,91 @@
+<!-- templates/dashboard.hbs -->
+<div class="aureus-app" id="aureus-dashboard-inner">
+
+  <!-- HEADER -->
+  <header class="aureus-header">
+    <div class="aureus-header__meta">
+      <span class="aureus-badge">Ход <strong>{{tick}}</strong></span>
+      <span class="aureus-badge aureus-badge--dim">{{factionCount}} фракций · {{nodeCount}} нод</span>
+    </div>
+    <div class="aureus-header__actions">
+      <button class="aureus-btn aureus-btn--ghost" data-action="openDebug" id="aureus-open-debug-btn"
+        title="Открыть Debug Panel">🐛</button>
+      <button class="aureus-btn aureus-btn--ghost" data-action="resetState" title="Сброс стейта">↺ Сброс</button>
+      <button class="aureus-btn aureus-btn--primary" data-action="nextTurn" id="aureus-next-turn-btn">⚔ Следующий ход</button>
+    </div>
+  </header>
+
+  <!-- MAP CONTROL BAR (власть над нодами) -->
+  {{#if factions.length}}
+  <div class="aureus-control-bar" title="Контроль нод по фракциям">
+    {{#each factions}}
+    <div class="aureus-control-bar__segment"
+         style="flex: {{nodeCount}} 0 0; background: {{color}};"
+         title="{{name}}: {{nodeCount}} нод"></div>
+    {{/each}}
+    {{#if neutralNodeCount}}
+    <div class="aureus-control-bar__segment aureus-control-bar__neutral"
+         style="flex: {{neutralNodeCount}} 0 0;"
+         title="Нейтральные: {{neutralNodeCount}} нод"></div>
+    {{/if}}
+  </div>
+  {{/if}}
+
+  <!-- FACTIONS -->
+  <section class="aureus-section">
+    <h2 class="aureus-section__title">Фракции</h2>
+    {{#if factions.length}}
+    <div class="aureus-factions">
+      {{#each factions}}
+      <div class="aureus-faction" style="--faction-color: {{color}}">
+        <div class="aureus-faction__swatch"></div>
+        <div class="aureus-faction__body">
+          <div class="aureus-faction__name">{{name}}</div>
+          <div class="aureus-faction__stats">
+            <span title="Территории">🏰 {{nodeCount}}</span>
+            <span title="Золото">🪙 {{gold}}</span>
+            <span title="Юниты">⚔ {{units}}</span>
+            <span class="aureus-faction__personality" title="Агрессия / Осторожность / Жадность">
+              <abbr title="Агрессия">А</abbr>{{aggression}}
+              <abbr title="Осторожность">О</abbr>{{caution}}
+              <abbr title="Жадность">Ж</abbr>{{greed}}
+            </span>
+          </div>
+          <div class="aureus-faction__controls">
+            <button class="aureus-btn--micro" data-action="adjustGold"
+              data-faction-id="{{id}}" data-delta="-10">−10🪙</button>
+            <button class="aureus-btn--micro" data-action="adjustGold"
+              data-faction-id="{{id}}" data-delta="10">+10🪙</button>
+            <button class="aureus-btn--micro" data-action="adjustUnits"
+              data-faction-id="{{id}}" data-delta="-1">−1⚔</button>
+            <button class="aureus-btn--micro" data-action="adjustUnits"
+              data-faction-id="{{id}}" data-delta="1">+1⚔</button>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    {{else}}
+    <p class="aureus-empty">Нет фракций. Нажмите «Сброс» чтобы загрузить тестовые данные.</p>
+    {{/if}}
+  </section>
+
+  <!-- EVENT LOG -->
+  <section class="aureus-section">
+    <h2 class="aureus-section__title">Лента событий</h2>
+    {{#if events.length}}
+    <ul class="aureus-events">
+      {{#each events}}
+      <li class="aureus-event aureus-event--{{severity}}">
+        <span class="aureus-event__icon">{{eventIcon type}}</span>
+        <span class="aureus-event__tick">#{{tick}}</span>
+        <span class="aureus-event__msg">{{message}}</span>
+      </li>
+      {{/each}}
+    </ul>
+    {{else}}
+    <p class="aureus-empty">Событий пока нет. Сыграйте первый ход.</p>
+    {{/if}}
+  </section>
+
+</div>

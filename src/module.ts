@@ -41,14 +41,17 @@ Hooks.once("init", () => {
   });
 
   // Кнопка открытия Dashboard в боковой панели
-  Hooks.on("renderSceneControls", (_app: unknown, html: JQuery) => {
-    const btn = $(`
-      <li class="scene-control" title="Aureus — Симулятор Мира" id="aureus-open-btn">
-        <i class="fas fa-globe"></i>
-      </li>
-    `);
-    btn.on("click", () => openDashboard());
-    html.find(".main-controls").append(btn);
+  Hooks.on("getSceneControlButtons", (controls: any[]) => {
+    const tokenControls = controls.find((c) => c.name === "token");
+    if (tokenControls) {
+      tokenControls.tools.push({
+        name: "aureus",
+        title: "Aureus — Симулятор Мира",
+        icon: "fas fa-globe",
+        button: true, // Кнопка не залипает
+        onClick: () => openDashboard(),
+      });
+    }
   });
 });
 

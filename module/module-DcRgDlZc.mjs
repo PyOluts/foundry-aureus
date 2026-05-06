@@ -303,14 +303,18 @@ Hooks.once("init", () => {
     };
     return icons[type] ?? "📋";
   });
-  Hooks.on("renderSceneControls", (_app, html) => {
-    const btn = $(`
-      <li class="scene-control" title="Aureus — Симулятор Мира" id="aureus-open-btn">
-        <i class="fas fa-globe"></i>
-      </li>
-    `);
-    btn.on("click", () => openDashboard());
-    html.find(".main-controls").append(btn);
+  Hooks.on("getSceneControlButtons", (controls) => {
+    const tokenControls = controls.find((c) => c.name === "token");
+    if (tokenControls) {
+      tokenControls.tools.push({
+        name: "aureus",
+        title: "Aureus — Симулятор Мира",
+        icon: "fas fa-globe",
+        button: true,
+        // Кнопка не залипает
+        onClick: () => openDashboard()
+      });
+    }
   });
 });
 Hooks.once("ready", async () => {
@@ -328,7 +332,7 @@ Hooks.once("ready", async () => {
     console.info("[Aureus] Seed data loaded.", state);
   }
   Hooks.on("aureus.requestTick", async () => {
-    const { TickManager } = await import("./tickManager-DtSdaFwA.mjs");
+    const { TickManager } = await import("./tickManager-r-3UADEH.mjs");
     await TickManager.runTick();
     _dashboard == null ? void 0 : _dashboard.refresh();
     TickManager.debugSeed = null;
@@ -348,7 +352,7 @@ window.Aureus = {
   resetState: (withSeedData = true) => StateManager.resetState(withSeedData),
   /** Установить seed для следующего тика (deterministic replay). Пример: Aureus.setDebugSeed(42) */
   setDebugSeed: async (seed) => {
-    const { TickManager } = await import("./tickManager-DtSdaFwA.mjs");
+    const { TickManager } = await import("./tickManager-r-3UADEH.mjs");
     TickManager.debugSeed = seed;
     console.info(`[Aureus] Debug seed set to ${seed}. Next tick will use it.`);
   }
@@ -361,7 +365,7 @@ function openDashboard() {
 }
 async function openDebugPanel() {
   if (!_debugPanel) {
-    const { AureusDebugPanel } = await import("./debugPanel-k98iXUdo.mjs");
+    const { AureusDebugPanel } = await import("./debugPanel-ChLT-5Ub.mjs");
     _debugPanel = new AureusDebugPanel();
   }
   _debugPanel.render({ force: true });
@@ -372,4 +376,4 @@ export {
   createSeededRandom as c,
   repaintMapNotes as r
 };
-//# sourceMappingURL=module-uU14mphR.mjs.map
+//# sourceMappingURL=module-DcRgDlZc.mjs.map

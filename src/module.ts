@@ -51,14 +51,21 @@ Hooks.once("init", () => {
     }
 
     if (tokenControls && tokenControls.tools) {
-      tokenControls.tools.push({
+      const btn = {
         name: "aureus",
         title: "Aureus — Симулятор Мира",
         icon: "fas fa-globe",
         visible: true,
         button: true, // Кнопка не залипает
         onClick: () => openDashboard(),
-      });
+      };
+
+      if (Array.isArray(tokenControls.tools)) {
+        tokenControls.tools.push(btn);
+      } else {
+        // V13+ tools is an object/Record
+        tokenControls.tools.aureus = btn;
+      }
     }
   });
 });

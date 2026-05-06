@@ -317,7 +317,7 @@ Hooks.once("init", () => {
       tokenControls = controls.tokens || controls.token;
     }
     if (tokenControls && tokenControls.tools) {
-      tokenControls.tools.push({
+      const btn = {
         name: "aureus",
         title: "Aureus — Симулятор Мира",
         icon: "fas fa-globe",
@@ -325,7 +325,12 @@ Hooks.once("init", () => {
         button: true,
         // Кнопка не залипает
         onClick: () => openDashboard()
-      });
+      };
+      if (Array.isArray(tokenControls.tools)) {
+        tokenControls.tools.push(btn);
+      } else {
+        tokenControls.tools.aureus = btn;
+      }
     }
   });
 });
@@ -344,7 +349,7 @@ Hooks.once("ready", async () => {
     console.info("[Aureus] Seed data loaded.", state);
   }
   Hooks.on("aureus.requestTick", async () => {
-    const { TickManager } = await import("./tickManager--X7skUnh.mjs");
+    const { TickManager } = await import("./tickManager-DxG4bnYG.mjs");
     await TickManager.runTick();
     _dashboard == null ? void 0 : _dashboard.refresh();
     TickManager.debugSeed = null;
@@ -364,7 +369,7 @@ window.Aureus = {
   resetState: (withSeedData = true) => StateManager.resetState(withSeedData),
   /** Установить seed для следующего тика (deterministic replay). Пример: Aureus.setDebugSeed(42) */
   setDebugSeed: async (seed) => {
-    const { TickManager } = await import("./tickManager--X7skUnh.mjs");
+    const { TickManager } = await import("./tickManager-DxG4bnYG.mjs");
     TickManager.debugSeed = seed;
     console.info(`[Aureus] Debug seed set to ${seed}. Next tick will use it.`);
   }
@@ -377,7 +382,7 @@ function openDashboard() {
 }
 async function openDebugPanel() {
   if (!_debugPanel) {
-    const { AureusDebugPanel } = await import("./debugPanel-DYzYYxv9.mjs");
+    const { AureusDebugPanel } = await import("./debugPanel-DeiYm9wl.mjs");
     _debugPanel = new AureusDebugPanel();
   }
   _debugPanel.render({ force: true });
@@ -388,4 +393,4 @@ export {
   createSeededRandom as c,
   repaintMapNotes as r
 };
-//# sourceMappingURL=module-D7C5Fo2p.mjs.map
+//# sourceMappingURL=module-BVUkSuIe.mjs.map

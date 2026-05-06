@@ -1,2 +1,2 @@
-import "./module-D7C5Fo2p.mjs";
+import "./module-BVUkSuIe.mjs";
 //# sourceMappingURL=module.js.map

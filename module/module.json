@@ -11,5 +11,7 @@
   "esmodules": ["module/module.js"],
   "styles": ["module/styles/aureus.css"],
   "languages": [],
-  "flags": {}
+  "flags": {},
+  "manifest": "https://raw.githubusercontent.com/PyOluts/foundry-aureus/main/module.json",
+  "download": "https://github.com/PyOluts/foundry-aureus/archive/refs/heads/main.zip"
 }

@@ -41,9 +41,16 @@ Hooks.once("init", () => {
   });
 
   // Кнопка открытия Dashboard в боковой панели
-  Hooks.on("getSceneControlButtons", (controls: any[]) => {
-    const tokenControls = controls.find((c) => c.name === "token");
-    if (tokenControls) {
+  Hooks.on("getSceneControlButtons", (controls: any) => {
+    // Поддержка и старых версий (Array), и новых V13+ (Object)
+    let tokenControls;
+    if (Array.isArray(controls)) {
+      tokenControls = controls.find((c) => c.name === "token");
+    } else {
+      tokenControls = controls.token;
+    }
+
+    if (tokenControls && tokenControls.tools) {
       tokenControls.tools.push({
         name: "aureus",
         title: "Aureus — Симулятор Мира",

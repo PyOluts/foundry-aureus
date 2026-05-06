@@ -310,8 +310,13 @@ Hooks.once("init", () => {
     return icons[type] ?? "📋";
   });
   Hooks.on("getSceneControlButtons", (controls) => {
-    const tokenControls = controls.find((c) => c.name === "token");
-    if (tokenControls) {
+    let tokenControls;
+    if (Array.isArray(controls)) {
+      tokenControls = controls.find((c) => c.name === "token");
+    } else {
+      tokenControls = controls.token;
+    }
+    if (tokenControls && tokenControls.tools) {
       tokenControls.tools.push({
         name: "aureus",
         title: "Aureus — Симулятор Мира",
@@ -338,7 +343,7 @@ Hooks.once("ready", async () => {
     console.info("[Aureus] Seed data loaded.", state);
   }
   Hooks.on("aureus.requestTick", async () => {
-    const { TickManager } = await import("./tickManager-DqMh5-KQ.mjs");
+    const { TickManager } = await import("./tickManager-Cr0oMWUX.mjs");
     await TickManager.runTick();
     _dashboard == null ? void 0 : _dashboard.refresh();
     TickManager.debugSeed = null;
@@ -358,7 +363,7 @@ window.Aureus = {
   resetState: (withSeedData = true) => StateManager.resetState(withSeedData),
   /** Установить seed для следующего тика (deterministic replay). Пример: Aureus.setDebugSeed(42) */
   setDebugSeed: async (seed) => {
-    const { TickManager } = await import("./tickManager-DqMh5-KQ.mjs");
+    const { TickManager } = await import("./tickManager-Cr0oMWUX.mjs");
     TickManager.debugSeed = seed;
     console.info(`[Aureus] Debug seed set to ${seed}. Next tick will use it.`);
   }
@@ -371,7 +376,7 @@ function openDashboard() {
 }
 async function openDebugPanel() {
   if (!_debugPanel) {
-    const { AureusDebugPanel } = await import("./debugPanel-ChF3mJV4.mjs");
+    const { AureusDebugPanel } = await import("./debugPanel-CSulwOMC.mjs");
     _debugPanel = new AureusDebugPanel();
   }
   _debugPanel.render({ force: true });
@@ -382,4 +387,4 @@ export {
   createSeededRandom as c,
   repaintMapNotes as r
 };
-//# sourceMappingURL=module-CvmHhxtP.mjs.map
+//# sourceMappingURL=module-CC2R83a4.mjs.map

@@ -7,6 +7,7 @@
 import { MODULE_ID } from "../state/types.js";
 import { StateManager } from "../state/stateManager.js";
 import type { AureusState, Faction } from "../state/types.js";
+import { TickManager } from "../core/tickManager.js";
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -135,7 +136,6 @@ export class AureusDebugPanel extends HandlebarsApplicationMixin(ApplicationV2) 
       return;
     }
 
-    const { TickManager } = await import("../core/tickManager.js");
     TickManager.debugSeed = seed;
     Hooks.callAll("aureus.requestTick");
     ui.notifications?.info(`[Aureus] Replay tick запущен с seed=${seed}`);

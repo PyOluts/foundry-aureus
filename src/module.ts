@@ -8,6 +8,7 @@ import { StateManager, createSeedFactions } from "./state/stateManager.js";
 import { createMockTopology } from "./core/topology.js";
 import { AureusDashboard } from "./ui/dashboard.js";
 import { registerMapHooks } from "./core/mapPainter.js";
+import { TickManager } from "./core/tickManager.js";
 
 // Импортируем стили (Vite их соберёт в styles/aureus.css)
 import "./styles/aureus.css";
@@ -93,7 +94,6 @@ Hooks.once("ready", async () => {
 
   // Слушаем запрос тика от Dashboard
   Hooks.on("aureus.requestTick", async () => {
-    const { TickManager } = await import("./core/tickManager.js");
     await TickManager.runTick();
     _dashboard?.refresh();
     // Сбрасываем разовый дебаг-seed после использования
